@@ -35,13 +35,9 @@ pipeline {
           def webAppName = 'meghana'
           
           // login Azure
-withCredentials([azureServicePrincipal(credentialsId: 'testing',
-                                    subscriptionIdVariable: '80c89423-f05a-47c3-aa56-2bee83409fa0',
-                                    clientIdVariable: '73f26c7b-ddd4-4181-9719-d86f8d1536e9',
-                                    clientSecretVariable: 'bb130157-e2d2-4c4a-8836-98479117b8c6',
-                                    tenantIdVariable: '1cee9c63-a1eb-4a3a-95e6-c4e16e9a128f')]) {
-    sh 'az login --service-principal -u $CLIENT_ID -p $CLIENT_SECRET -t $TENANT_ID'
-}       }
+withCredentials([azureServicePrincipal('testing')]) {
+    sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+}
           
           // get publish settings
           def pubProfilesJson = sh script: "az webapp deployment list-publishing-profiles -g $resourceGroup -n $webAppName", returnStdout: true
