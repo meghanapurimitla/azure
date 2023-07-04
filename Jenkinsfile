@@ -41,7 +41,7 @@ node {
       def resourceGroup = 'meghana_group-ba11'
       def webAppName = 'meghana'
       // login Azure
-      withCredentials([usernamePassword(credentialsId: '<service_princial>', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+      withCredentials([usernamePassword(credentialsId: 'testing', passwordVariable: 'bb130157-e2d2-4c4a-8836-98479117b8c6', usernameVariable: '73f26c7b-ddd4-4181-9719-d86f8d1536e9')]) {
        sh '''
           az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
           az account set -s $AZURE_SUBSCRIPTION_ID
