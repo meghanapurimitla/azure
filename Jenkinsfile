@@ -8,6 +8,7 @@ def getFtpPublishProfile(def publishProfilesJson) {
 }
 
     pipeline {
+        agent any
 node {
   withEnv(['AZURE_SUBSCRIPTION_ID=80c89423-f05a-47c3-aa56-2bee83409fa0',
         'AZURE_TENANT_ID=1cee9c63-a1eb-4a3a-95e6-c4e16e9a128f']) {
@@ -15,7 +16,7 @@ node {
       checkout scm
     }
 
-  agent any
+
     stages {
     stage('Azure Login') {
       steps {
