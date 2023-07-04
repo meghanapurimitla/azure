@@ -8,19 +8,38 @@ def getFtpPublishProfile(def publishProfilesJson) {
 }
 
 node {
-  withEnv(['AZURE_SUBSCRIPTION_ID=<subscription_id>',
-        'AZURE_TENANT_ID=<tenant_id>']) {
+  withEnv(['AZURE_SUBSCRIPTION_ID=80c89423-f05a-47c3-aa56-2bee83409fa0',
+        'AZURE_TENANT_ID=1cee9c63-a1eb-4a3a-95e6-c4e16e9a128f']) {
     stage('init') {
       checkout scm
     }
+    stages {
+    stage('Azure Login') {
+      steps {
+        withAzureServicePrincipal(credentialsId: 'testing') {
+          // Azure CLI commands or Azure CLI Jenkins plugin steps can be used here
+          sh 'az login'
+        }
+      }
+    }
+    
+    stage('Deploy to Azure App Service') {
+      steps {
+        withAzureAppService(credentialsId: 'testing', resourceGroup: 'meghana_group-ba11', appName: 'meghana') {
+          // Azure CLI commands or Azure CLI Jenkins plugin steps to deploy to App Service
+          sh 'az webapp deploy --name meghana --resource-group meghana_group-ba11 --src-path your-app-package.zip'
+        }
+      }
+    }
+  }
   
     stage('build') {
       sh 'mvn clean package'
     }
   
     stage('deploy') {
-      def resourceGroup = '<resource_group>'
-      def webAppName = '<app_name>'
+      def resourceGroup = 'meghana_group-ba11'
+      def webAppName = 'meghana'
       // login Azure
       withCredentials([usernamePassword(credentialsId: '<service_princial>', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
        sh '''
