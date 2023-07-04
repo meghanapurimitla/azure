@@ -1,5 +1,4 @@
-pipeline {
-  agent any
+
 import groovy.json.JsonSlurper
 
 def getFtpPublishProfile(def publishProfilesJson) {
@@ -8,7 +7,8 @@ def getFtpPublishProfile(def publishProfilesJson) {
     if (p['publishMethod'] == 'FTP')
       return [url: p.publishUrl, username: p.userName, password: p.userPWD]
 }
-
+pipeline {
+  agent any
 
 node {
   withEnv(['AZURE_SUBSCRIPTION_ID=80c89423-f05a-47c3-aa56-2bee83409fa0',
