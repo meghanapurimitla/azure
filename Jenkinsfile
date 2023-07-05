@@ -31,11 +31,11 @@ pipeline {
     stage('deploy') {
       steps {
         script {
-          def resourceGroup = 'meghana_group-ba11'
-          def webAppName = 'meghana'
+          def resourceGroup ='meghana_group-ba11'
+          def webAppName ='meghana'
           
           // login Azure
-withCredentials([azureServicePrincipal('testing')]) {
+withCredentials([azureServicePrincipal('azure-1-pipeline')]) {
     sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
 }
           
